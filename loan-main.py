@@ -42,7 +42,7 @@ class loan_managnment_system:
         self.show_pass_var = tk.IntVar()
         self.password_visible = False
         # adding Logindogpage1 image
-        self.bg = Image.open("login.png")
+        self.bg = Image.open("Loan_app\login.png")
         self.bg = self.bg.resize((1200, 750), Image.LANCZOS)
         self.bg = ImageTk.PhotoImage(self.bg)
         self.bg_image = Label(self.login_frame, image=self.bg).place(x=0, y=0, relwidth=1, relheight=1)
@@ -75,7 +75,7 @@ class loan_managnment_system:
         self.forgot_pass.place(x=850, y=360)
         
         # adding login button with button shape outline
-        self.login_button = Button(self.login_frame, text="Login", font=("calibri", 15,"bold"), bg="#4b5ee5", fg="black", bd=1, cursor="hand2",activebackground="#4b5ee5", command=self.loan_application)
+        self.login_button = Button(self.login_frame, text="Login", font=("calibri", 15,"bold"), bg="#4b5ee5", fg="black", bd=1, cursor="hand2",activebackground="#4b5ee5", command=self.adminpage)
         self.login_button.place(x=950, y=390)
         
         # adding register button
@@ -90,7 +90,7 @@ class loan_managnment_system:
         self.register_frame = Frame(self.root, bg="white")
         self.register_frame.place(x=0, y=0, width=1200, height=750)
         #adding Registerdogpage1 image
-        self.bg = Image.open("Loan Managnment/register.png")
+        self.bg = Image.open("Loan_app\register.png")
         self.bg = self.bg.resize((1200, 750), Image.LANCZOS)
         self.bg = ImageTk.PhotoImage(self.bg)
         self.bg_image = Label(self.register_frame, image=self.bg).place(x=0, y=0, relwidth=1, relheight=1)
@@ -134,8 +134,7 @@ class loan_managnment_system:
         self.confirm_password_label.place(x=850, y=360)
         self.confirm_password_entry = Entry(self.register_frame, font=("calibri", 15), bg="white", fg="black", show="*")
         self.confirm_password_entry.place(x=850, y=390)
-        
-                    
+                 
         self.register_button = Button(self.register_frame, text="Register", font=("calibri", 15,"bold"), bg="white", fg="black", bd=1, cursor="hand2", command=self.register_screen)
         self.register_button.place(x=750, y=450)
         self.login_button = Button(self.register_frame, text="Back to Login", font=("calibri", 15,"bold"), bg="white", fg="black", bd=1, cursor="hand2", command=self.loginscreen)
@@ -219,7 +218,7 @@ class loan_managnment_system:
         self.admin_frame = Frame(self.root, bg="white")
         self.admin_frame.place(x=0, y=0, width=1200, height=750)
         # Adding Admin Page Background Image
-        self.bg_admin = Image.open(r"Loan Managnment/adminpage.png")
+        self.bg_admin = Image.open("Loan_app/adminpage.png")
         self.bg_admin = self.bg_admin.resize((1200, 750), Image.LANCZOS)
         self.bg_admin = ImageTk.PhotoImage(self.bg_admin)
         self.bg_admin_image = Label(self.admin_frame, image=self.bg_admin).place(x=0, y=0, relwidth=1, relheight=1)
@@ -231,10 +230,10 @@ class loan_managnment_system:
         self.admin_label.place(x=500, y=50)
         
         # Add image as button for add loan
-        self.add_loan_image = Image.open("Loan Managnment/add_loan.png")
+        self.add_loan_image = Image.open("Loan_app/add_loan.png")
         self.add_loan_image = self.add_loan_image.resize((70, 70), Image.LANCZOS)
         self.add_loan_image = ImageTk.PhotoImage(self.add_loan_image)
-        self.add_loan_button = Button(self.admin_frame, image=self.add_loan_image, bg="white", bd=0, cursor="hand2")
+        self.add_loan_button = Button(self.admin_frame, image=self.add_loan_image, bg="white", bd=0, cursor="hand2",command=self.add_loan)
         self.add_loan_button.place(x=670, y=200)
         
         # add text to the add loan button
@@ -242,10 +241,10 @@ class loan_managnment_system:
         self.add_loan_label.place(x=660, y=270)
 
         # add image as button for delete loan
-        self.delete_loan_image = Image.open("Loan Managnment/delete_loan.png")
+        self.delete_loan_image = Image.open("Loan_app/delete_loan.png")
         self.delete_loan_image = self.delete_loan_image.resize((70, 70), Image.LANCZOS)
         self.delete_loan_image = ImageTk.PhotoImage(self.delete_loan_image)
-        self.delete_loan_button = Button(self.admin_frame, image=self.delete_loan_image, bg="white", bd=0, cursor="hand2")
+        self.delete_loan_button = Button(self.admin_frame, image=self.delete_loan_image, bg="white", bd=0, cursor="hand2",command=self.delete_loan)
         self.delete_loan_button.place(x=670, y=350)
         
         # add text to the delete loan button
@@ -253,7 +252,7 @@ class loan_managnment_system:
         self.delete_loan_label.place(x=650, y=420)
 
         # add image as button for view loan
-        self.view_loan_image = Image.open("Loan Managnment/view_loans.png")
+        self.view_loan_image = Image.open("Loan_app/view_loans.png")
         self.view_loan_image = self.view_loan_image.resize((70, 70), Image.LANCZOS)
         self.view_loan_image = ImageTk.PhotoImage(self.view_loan_image)
         self.view_loan_button = Button(self.admin_frame, image=self.view_loan_image, bg="white", bd=0, cursor="hand2")
@@ -264,7 +263,7 @@ class loan_managnment_system:
         self.view_loan_label.place(x=650, y=570)
 
         # add image as button for logout
-        self.logout_image = Image.open("Loan Managnment/logout.png")
+        self.logout_image = Image.open("Loan_app/logout.png")
         self.logout_image = self.logout_image.resize((70, 70), Image.LANCZOS)
         self.logout_image = ImageTk.PhotoImage(self.logout_image)
         self.logout_button = Button(self.admin_frame, image=self.logout_image, bg="white", bd=0, cursor="hand2")
@@ -278,7 +277,7 @@ class loan_managnment_system:
         self.loan_frame.place(x=0, y=0, width=1200, height=750)
         
         # Adding Loan Application Background Image
-        self.bg_loan_app = Image.open("loan_appliaction.jpg")
+        self.bg_loan_app = Image.open("Loan_app/loan_appliaction.jpg")
         self.bg_loan_app = self.bg_loan_app.resize((1200, 750), Image.LANCZOS)
         self.bg_loan_app = ImageTk.PhotoImage(self.bg_loan_app)
         self.bg_loan_app_image = Label(self.loan_frame, image=self.bg_loan_app).place(x=0, y=0, relwidth=1, relheight=1)
@@ -287,7 +286,7 @@ class loan_managnment_system:
         self.loan_app_label.place(x=40, y=40)
         
         #add borrower deatils to the right of the loan application page
-        self.borrower_details_label = Label(self.loan_frame, text="Borrower Details", font=("calibri", 15,"bold"), bg="white", fg="black")
+        self.borrower_details_label = Label(self.loan_frame, text="Borrower Details", font=("calibri", 15), bg="white", fg="black")
         self.borrower_details_label.place(x=400, y=120)
 
         # adding first name label
@@ -337,7 +336,7 @@ class loan_managnment_system:
         self.dob_entry = Entry(self.loan_frame, font=("calibri", 15), bg="white", fg="black")
         self.dob_entry.place(x=600, y=335)
 
-        self.loan_details_label = Label(self.loan_frame, text="Loan Details", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.loan_details_label = Label(self.loan_frame, text="Loan Details", font=("calibri", 15), bg="white", fg="black")
         self.loan_details_label.place(x=400, y=380)
 
         self.loan_amount_label = Label(self.loan_frame, text="Amount", font=("calibri", 15, "bold"), bg="white", fg="black")
@@ -360,7 +359,7 @@ class loan_managnment_system:
         self.loan_repayment_schedule_entry = Entry(self.loan_frame, font=("calibri", 15), bg="white", fg="black")
         self.loan_repayment_schedule_entry.place(x=600, y=560)
         # add collateral details below the loan details
-        self.collateral_details_label = Label(self.loan_frame, text="Collateral Details", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.collateral_details_label = Label(self.loan_frame, text="Collateral Details", font=("calibri", 15), bg="white", fg="black")
         self.collateral_details_label.place(x=400, y=605)
         
         self.collateral_type_label = Label(self.loan_frame, text="Collateral Type", font=("calibri", 15, "bold"), bg="white", fg="black")
@@ -394,22 +393,166 @@ class loan_managnment_system:
         self.annual_income_entry = Entry(self.loan_frame, font=("calibri", 15), bg="white", fg="black")
         self.annual_income_entry.place(x=970, y=515)
         
+        # add credit score label and entry box
+        self.credit_score_label = Label(self.loan_frame, text="Credit Score", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.credit_score_label.place(x=820, y=560)
+        self.credit_score_entry = Entry(self.loan_frame, font=("calibri", 15), bg="white", fg="black")
+        self.credit_score_entry.place(x=970, y=560)
+        
         # add image as button for back to login
-        self.back_to_login_image = Image.open("back.png")
+        self.back_to_login_image = Image.open("Loan_app/back.png")
         self.back_to_login_image = self.back_to_login_image.resize((80, 80), Image.LANCZOS)
         self.back_to_login_image = ImageTk.PhotoImage(self.back_to_login_image)
         self.back_to_login_button = Button(self.loan_frame, image=self.back_to_login_image, bg="white", bd=0, cursor="hand2", command=self.loginscreen)
         self.back_to_login_button.place(x=1050, y=650)
         
         # add image as button for submit loan application
-        self.submit_loan_image = Image.open("submit.png")
+        self.submit_loan_image = Image.open("Loan_app/submit.png")
         self.submit_loan_image = self.submit_loan_image.resize((60, 60), Image.LANCZOS)
         self.submit_loan_image = ImageTk.PhotoImage(self.submit_loan_image)
         self.submit_loan_button = Button(self.loan_frame, image=self.submit_loan_image, bg="white", bd=0, cursor="hand2")
         self.submit_loan_button.place(x=950, y=670)
         
         
+    #creating add loan page
+    def add_loan(self):
+        for i in self.root.winfo_children():
+            i.destroy()
         
+        self.add_loan_frame = Frame(self.root, bg="white")
+        self.add_loan_frame.place(x=0, y=0, width=1200, height=750)
+        
+        # Adding Add Loan Background Image
+        self.bg_add_loan = Image.open("Loan_app/add_loan_details.png")
+        self.bg_add_loan = self.bg_add_loan.resize((1200, 750), Image.LANCZOS)
+        self.bg_add_loan = ImageTk.PhotoImage(self.bg_add_loan)
+        self.bg_add_loan_image = Label(self.add_loan_frame, image=self.bg_add_loan).place(x=0, y=0, relwidth=1, relheight=1)
+        
+        self.add_loan_label = Label(self.add_loan_frame, text="Add Loan Details", font=("calibri", 30, "bold"), bg="white", fg="black")
+        self.add_loan_label.place(x=40, y=50)
+
+        # add loan name label and entry box
+        self.loan_name_label = Label(self.add_loan_frame, text="Loan Name", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.loan_name_label.place(x=500, y=120)
+        self.loan_name_entry = Entry(self.add_loan_frame, font=("calibri", 15), bg="white", fg="black", width=20)
+        self.loan_name_entry.place(x=650, y=120)
+
+        # add loan type label and drop down box
+        self.loan_type_label = Label(self.add_loan_frame, text="Loan Type", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.loan_type_label.place(x=500, y=170)
+        self.loan_type_entry = ttk.Combobox(self.add_loan_frame, font=("calibri", 15), state="readonly", width=8)
+        self.loan_type_entry["values"] = ["Personal Loan", "Home Loan", "Car Loan", "Business Loan"]
+        self.loan_type_entry.place(x=650, y=170)
+
+        # add loan amount label and entry box
+        self.loan_amount_label = Label(self.add_loan_frame, text="Loan Amount", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.loan_amount_label.place(x=500, y=220)
+        self.loan_amount_entry = Entry(self.add_loan_frame, font=("calibri", 15), bg="white", fg="black", width=8)
+        self.loan_amount_entry.place(x=650, y=220)
+
+        # add loan interest rate label and entry box
+        self.loan_interest_rate_label = Label(self.add_loan_frame, text="Interest Rate", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.loan_interest_rate_label.place(x=500, y=270)
+        self.loan_interest_rate_entry = Entry(self.add_loan_frame, font=("calibri", 15), bg="white", fg="black", width=8)
+        self.loan_interest_rate_entry.place(x=650, y=270)
+
+        # add loan term label and entry box
+        self.loan_term_label = Label(self.add_loan_frame, text="Loan Term", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.loan_term_label.place(x=500, y=320)
+        self.loan_term_entry = Entry(self.add_loan_frame, font=("calibri", 15), bg="white", fg="black", width=8)
+        self.loan_term_entry.place(x=650, y=320)
+
+        # collateral required label and drop down box
+        self.collateral_required_label = Label(self.add_loan_frame, text="Collateral Required", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.collateral_required_label.place(x=500, y=370)
+        self.collateral_required_entry = ttk.Combobox(self.add_loan_frame, font=("calibri", 15), state="readonly", width=8)
+        self.collateral_required_entry["values"] = ["Yes", "No"]
+        self.collateral_required_entry.place(x=670, y=370)
+        
+        # add conditions label to the right of the page
+        self.conditions_label = Label(self.add_loan_frame, text="Loan Conditions", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.conditions_label.place(x=950, y=80)
+        
+        # add minimum age label and entry box
+        self.min_age_label = Label(self.add_loan_frame, text="Minimum Age", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.min_age_label.place(x=870, y=120)
+        self.min_age_entry = Entry(self.add_loan_frame, font=("calibri", 15), bg="white", fg="black", width=8)
+        self.min_age_entry.place(x=1040, y=120)
+
+        # add maximum age label and entry box
+        self.max_age_label = Label(self.add_loan_frame, text="Maximum Age", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.max_age_label.place(x=870, y=170)
+        self.max_age_entry = Entry(self.add_loan_frame, font=("calibri", 15), bg="white", fg="black", width=8)
+        self.max_age_entry.place(x=1040, y=170)
+
+        # add minimum income label and entry box
+        self.min_income_label = Label(self.add_loan_frame, text="Minimum Income", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.min_income_label.place(x=870, y=220)
+        self.min_income_entry = Entry(self.add_loan_frame, font=("calibri", 15), bg="white", fg="black", width=8)
+        self.min_income_entry.place(x=1040, y=220)
+
+        # add credit score label and entry box
+        self.credit_score_label = Label(self.add_loan_frame, text="Credit Score", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.credit_score_label.place(x=870, y=270)
+        self.credit_score_entry = Entry(self.add_loan_frame, font=("calibri", 15), bg="white", fg="black", width=8)
+        self.credit_score_entry.place(x=1040, y=270)
+        # add collateral value label and entry box
+        self.collateral_value_label = Label(self.add_loan_frame, text="Collateral Value", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.collateral_value_label.place(x=870, y=320)
+        self.collateral_value_entry = Entry(self.add_loan_frame, font=("calibri", 15), bg="white", fg="black", width=8)
+        self.collateral_value_entry.place(x=1040, y=320)
+        # add image as button for submit loan details
+        self.submit_loan_details_image = Image.open("Loan_app/submit.png")
+        self.submit_loan_details_image = self.submit_loan_details_image.resize((70, 70), Image.LANCZOS)
+        self.submit_loan_details_image = ImageTk.PhotoImage(self.submit_loan_details_image)
+        self.submit_loan_details_button = Button(self.add_loan_frame, image=self.submit_loan_details_image, bg="white", bd=0, cursor="hand2")
+        self.submit_loan_details_button.place(x=690, y=440)
+        
+        # add image as button for back to admin page
+        self.back_to_admin_image = Image.open("Loan_app/back.png")
+        self.back_to_admin_image = self.back_to_admin_image.resize((70, 70), Image.LANCZOS)
+        self.back_to_admin_image = ImageTk.PhotoImage(self.back_to_admin_image)
+        self.back_to_admin_button = Button(self.add_loan_frame, image=self.back_to_admin_image, bg="white", bd=0, cursor="hand2", command=self.adminpage)
+        self.back_to_admin_button.place(x=1050, y=650)
+        
+        # creating delete loan page
+    def delete_loan(self):
+        for i in self.root.winfo_children():
+            i.destroy()
+        
+        self.delete_loan_frame = Frame(self.root, bg="white")
+        self.delete_loan_frame.place(x=0, y=0, width=1200, height=750)
+        
+        # Adding Delete Loan Background Image
+        self.bg_delete_loan = Image.open("Loan_app\delete_loan_deatils.jpg")
+        self.bg_delete_loan = self.bg_delete_loan.resize((1200, 750), Image.LANCZOS)
+        self.bg_delete_loan = ImageTk.PhotoImage(self.bg_delete_loan)
+        self.bg_delete_loan_image = Label(self.delete_loan_frame, image=self.bg_delete_loan).place(x=0, y=0, relwidth=1, relheight=1)
+        
+        self.delete_loan_label = Label(self.delete_loan_frame, text="Delete Loan Details", font=("calibri", 30, "bold"), bg="white", fg="black")
+        self.delete_loan_label.place(x=40, y=50)
+
+        # add loan name label and entry box
+        self.loan_name_label = Label(self.delete_loan_frame, text="Loan Name", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.loan_name_label.place(x=500, y=120)
+        self.loan_name_entry = Entry(self.delete_loan_frame, font=("calibri", 15), bg="white", fg="black")
+        self.loan_name_entry.place(x=650, y=120)
+        
+        # add image as button for submit loan details
+        self.submit_loan_details_image = Image.open("Loan_app/submit.png")
+        self.submit_loan_details_image = self.submit_loan_details_image.resize((70, 70), Image.LANCZOS)
+        self.submit_loan_details_image = ImageTk.PhotoImage(self.submit_loan_details_image)
+        self.submit_loan_details_button = Button(self.delete_loan_frame, image=self.submit_loan_details_image, bg="white", bd=0, cursor="hand2")
+        self.submit_loan_details_button.place(x=690, y=200)
+        
+        # add image as button for back to admin page
+        self.back_to_admin_image = Image.open("Loan_app/back.png")
+        self.back_to_admin_image = self.back_to_admin_image.resize((70, 70), Image.LANCZOS)
+        self.back_to_admin_image = ImageTk.PhotoImage(self.back_to_admin_image)
+        self.back_to_admin_button = Button(self.delete_loan_frame, image=self.back_to_admin_image, bg="white", bd=0, cursor="hand2", command=self.adminpage)
+        self.back_to_admin_button.place(x=1050, y=650)
+        
+
         
         
         
