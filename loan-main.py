@@ -14,6 +14,9 @@ import math
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import csv
+from tkinter import filedialog
+import datetime
 
 
 
@@ -22,9 +25,35 @@ loan_management_systemdb = mysql.connector.connect(
     host="localhost",
     user="root",
     password="Croatia@24",
-    database="loan_management_system"
+    #database="loan_management_system"
 )
 
+#create if not exists the database and the tables
+cursor = loan_management_systemdb.cursor()
+cursor.execute("CREATE DATABASE IF NOT EXISTS loan_management_sys")
+cursor.execute("USE loan_management_sys")
+cursor = loan_management_systemdb.cursor()
+
+# Create the loan table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS loan(
+    loan_id INT AUTO_INCREMENT PRIMARY KEY, 
+    loan_name VARCHAR(45), 
+    loan_type VARCHAR(45), 
+    loan_amount INT, 
+    interest_rate DECIMAL(5,2), 
+    loan_term INT, 
+    collateral_required VARCHAR(45), 
+    min_age INT, 
+    max_age INT, 
+    min_income INT, 
+    credit_score INT, 
+    collateral_value INT
+)
+""")
+cursor.execute("CREATE TABLE IF NOT EXISTS user(user_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(255), last_name VARCHAR(255), email VARCHAR(255), phoneno VARCHAR(15), address VARCHAR(255), password VARCHAR(255))")
+cursor.execute("CREATE TABLE IF NOT EXISTS loan_application(application_id INT AUTO_INCREMENT PRIMARY KEY, first_name VARCHAR(255), last_name VARCHAR(255), email VARCHAR(255), phoneno VARCHAR(15),dob DATE, street_address VARCHAR(255), city VARCHAR(45), state VARCHAR(45), zip_code INT, amount INT, interest_rate DECIMAL(5,2), repayment_schedule VARCHAR(45), collateral_type VARCHAR(45), collateral_value INT, employer_name VARCHAR(45), years_employed INT, annual_income INT, credit_score INT, loan_id INT,user_id INT, loan_decision VARCHAR(45),CONSTRAINT fk_loan FOREIGN KEY (loan_id) REFERENCES loan(loan_id),CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES user(user_id))")
+cursor.execute("CREATE TABLE IF NOT EXISTS repayment(repayment_id INT AUTO_INCREMENT PRIMARY KEY, application_id INT, repayment_date DATE, amount_paid DECIMAL(15,2), remaining_balance DECIMAL(15,2), CONSTRAINT fk_application_id FOREIGN KEY (application_id) REFERENCES loan_application(application_id))")
 
 class loan_managnment_system:
         #initializing the class
@@ -259,6 +288,19 @@ class loan_managnment_system:
         self.view_loan_image = ImageTk.PhotoImage(self.view_loan_image)
         self.view_loan_button = Button(self.admin_frame, image=self.view_loan_image, bg="white", bd=0, cursor="hand2",command=self.manage_loan_applications)
         self.view_loan_button.place(x=670, y=500)
+        
+        #add image as button for report to the right of the add loan button
+        self.report_image = Image.open("Loan_app/report.png")
+        self.report_image = self.report_image.resize((70, 70), Image.LANCZOS)
+        self.report_image = ImageTk.PhotoImage(self.report_image)
+        self.report_button = Button(self.admin_frame, image=self.report_image, bg="white", bd=0, cursor="hand2",command=self.report_page)
+        self.report_button.place(x=670, y=640)
+        
+        #add text to the report button
+        self.report_label = Label(self.admin_frame, text="Reports", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.report_label.place(x=670, y=690)
+        
+
         
         # add text to the view loan button
         self.view_loan_label = Label(self.admin_frame, text="View Loan", font=("calibri", 15, "bold"), bg="white", fg="black")
@@ -855,6 +897,120 @@ class loan_managnment_system:
         self.back_to_admin_button = Button(self.add_loan_frame, image=self.back_to_admin_image, bg="white", bd=0, cursor="hand2", command=self.adminpage)
         self.back_to_admin_button.place(x=1050, y=650)
     
+    # report page
+    def report_page(self):
+        for i in self.root.winfo_children():
+            i.destroy()
+        
+        self.report_frame = Frame(self.root, bg="white")
+        self.report_frame.place(x=0, y=0, width=1200, height=750)
+        
+        # Adding Report Background Image
+        self.bg_report = Image.open("Loan_app/reports_page.jpg")
+        self.bg_report = self.bg_report.resize((1200, 750), Image.LANCZOS)
+        self.bg_report = ImageTk.PhotoImage(self.bg_report)
+        self.bg_report_image = Label(self.report_frame, image=self.bg_report).place(x=0, y=0, relwidth=1, relheight=1)
+        
+        self.report_label = Label(self.report_frame, text="Loan Applications", font=("calibri", 30, "bold"), bg="white", fg="black")
+        self.report_label.place(x=40, y=30)
+        
+        #add image as button for back to admin page
+        self.back_to_admin_image = Image.open("Loan_app/apply.png")
+        self.back_to_admin_image = self.back_to_admin_image.resize((70, 70), Image.LANCZOS)
+        self.back_to_admin_image = ImageTk.PhotoImage(self.back_to_admin_image)
+        self.back_to_admin_button = Button(self.report_frame, image=self.back_to_admin_image, bg="white", bd=0, cursor="hand2", command=self.adminpage)
+        self.back_to_admin_button.place(x=1050, y=650)
+        
+        #generte a report of loan applications from the database saying which user applied for which loan
+        con = mysql.connector.connect(host="localhost", user="root", password="Croatia@24", database="loan_management_system")
+        cursor = con.cursor()
+        cursor.execute("SELECT application_id, loan_id, user_id, first_name, amount, interest_rate, repayment_schedule FROM loan_application")
+        loan_applications = cursor.fetchall()
+        con.close()
+        
+        # Display the loan applications in a table
+        self.report_table = ttk.Treeview(self.report_frame, columns=("Application ID" ,"Loan ID", "User ID", "First name","Amount", "Interest Rate", "Repayment Schedule"), show="headings", height=20)
+        self.report_table.place(x=40, y=120)
+        self.report_table.heading("Application ID", text="Application ID")
+        self.report_table.heading("Loan ID", text="Loan ID")
+        self.report_table.heading("User ID", text="User ID")
+        self.report_table.heading("First name", text="First name")
+        self.report_table.heading("Amount", text="Amount")
+        self.report_table.heading("Interest Rate", text="Interest Rate")
+        self.report_table.heading("Repayment Schedule", text="Repayment Schedule")
+        
+        for loan_application in loan_applications:
+            self.report_table.insert("", "end", values=loan_application)
+        
+            
+        #download the report as a csv file
+        self.download_button = Button(self.report_frame, text="Download Report", font=("calibri", 15), bg="green", fg="white", command=self.download_report)
+        self.download_button.place(x=40, y=650)
+        
+        #add timestamp to the report beside the heading
+        timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.timestamp_label = Label(self.report_frame, text=f"Report generated at: {timestamp}", font=("calibri", 15), bg="white", fg="black")
+        self.timestamp_label.place(x=40, y=90)
+        
+        
+    
+    def download_report(self):
+    # Connect to the database and fetch loan applications
+        con = mysql.connector.connect(host="localhost", user="root", password="Croatia@24", database="loan_management_system")
+        cursor = con.cursor()
+        
+        # Corrected SQL query
+        cursor.execute("SELECT application_id, loan_id, user_id, first_name, amount, interest_rate, repayment_schedule FROM loan_application")
+        loan_applications = cursor.fetchall()
+        con.close()
+
+        # Ask the user for a file location to save the CSV file
+        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV files", "*.csv")])
+        if file_path:
+            # Get the current timestamp
+            timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            # Write the loan applications to the CSV file with the timestamp at the top
+            with open(file_path, "w", newline="") as file:
+                csv_writer = csv.writer(file)
+                
+                # Write the timestamp as the first row
+                csv_writer.writerow([f"Timestamp: {timestamp}"])
+                
+                # Write the header row
+                csv_writer.writerow(["Application ID", "Loan ID", "User ID", "First name", "Amount", "Interest Rate", "Repayment Schedule"])
+                
+                # Write the loan application rows
+                csv_writer.writerows(loan_applications)
+            
+            # Show success message
+            messagebox.showinfo("Report Downloaded", "Report has been downloaded successfully.")
+
+  
+    def repayment_page(self):
+        for i in self.root.winfo_children():
+            i.destroy()
+        
+        self.repayment_frame = Frame(self.root, bg="white")
+        self.repayment_frame.place(x=0, y=0, width=1200, height=750)
+        
+        # Adding Repayment Background Image
+        self.bg_repayment = Image.open("Loan_app/repayment_screen.jpg")
+        self.bg_repayment = self.bg_repayment.resize((1200, 750), Image.LANCZOS)
+        self.bg_repayment = ImageTk.PhotoImage(self.bg_repayment)
+        self.bg_repayment_image = Label(self.repayment_frame, image=self.bg_repayment).place(x=0, y=0, relwidth=1, relheight=1)
+        
+        self.repayment_label = Label(self.repayment_frame, text="Repayment Schedule", font=("calibri", 30, "bold"), bg="white", fg="black")
+        self.repayment_label.place(x=40, y=50)
+ 
+        # add image as button for back to admin page
+        self.back_to_admin_image = Image.open("Loan_app/back.png")
+        self.back_to_admin_image = self.back_to_admin_image.resize((70, 70), Image.LANCZOS)
+        self.back_to_admin_image = ImageTk.PhotoImage(self.back_to_admin_image)
+        self.back_to_admin_button = Button(self.repayment_frame, image=self.back_to_admin_image, bg="white", bd=0, cursor="hand2", command=self.loginscreen)
+        self.back_to_admin_button.place(x=1050, y=650)
+    
+    
     def publish_loan(self):
         loan_name = self.loan_name_entry.get()
         loan_type = self.loan_type_entry.get()
@@ -954,7 +1110,8 @@ class loan_managnment_system:
             loan_button.place(x=500, y=y_offset)
             y_offset += 50
             
-            
+        
+        
         # Add image as button for back to login
         self.back_to_login_image = Image.open("Loan_app/back.png")
         self.back_to_login_image = self.back_to_login_image.resize((80, 80), Image.LANCZOS)
@@ -1076,7 +1233,8 @@ class loan_managnment_system:
         self.view_loan_applications_button = Button(self.user_dashboard_frame, image=self.view_loan_applications_image, bg="white", bd=0, cursor="hand2",command=self.view_loan_applications)
         self.view_loan_applications_button.place(x=700, y=200)
         
-    
+
+        
         
         # Add image as button for logout
         self.logout_image = Image.open("Loan_app/logout.png")
@@ -1086,6 +1244,13 @@ class loan_managnment_system:
         self.logout_button.place(x=1050, y=650)
         
     def view_loan_applications(self):
+        for i in self.root.winfo_children():
+            i.destroy()
+            
+        self.user_dashboard_frame = Frame(self.root, bg="white")
+        self.user_dashboard_frame.place(x=0, y=0, width=1200, height=750)
+        
+        
         # fetch loan details from loan_application table for the user with status of the loan
         con = mysql.connector.connect(host="localhost", user="root", password="Croatia@24", database="loan_management_system")
         cursor = con.cursor()
@@ -1135,7 +1300,9 @@ class loan_managnment_system:
         
         self.loan_application_label = Label(self.loan_application_frame, text=f"Loan Application for {application_id}\\", font=("calibri", 20, "bold"), bg="white", fg="black")
         self.loan_application_label.place(x=500, y=50)
-
+        
+        
+        
         application_text = f"""
         Loan Amount: {loan_amount}
         Interest Rate: {interest_rate}%
@@ -1152,6 +1319,15 @@ class loan_managnment_system:
         
         self.loan_application_details = Label(self.loan_application_frame, text=application_text, font=("calibri", 15), bg="white", fg="black", justify=LEFT)
         self.loan_application_details.place(x=500, y=120)
+        
+        #add button for repaymeny page
+        self.repayment_image = Image.open("Loan_app/repayment.png")
+        self.repayment_image = self.repayment_image.resize((70, 70), Image.LANCZOS)
+        self.repayment_image = ImageTk.PhotoImage(self.repayment_image)
+        self.repayment_button = Button(self.loan_application_frame, image=self.repayment_image, bg="white", bd=0, cursor="hand2", command=self.repayment_page)
+        self.repayment_button.place(x=500, y=500)
+        
+        
         
         # Add back to user dashboard button
         self.back_to_user_dashboard_image = Image.open("Loan_app/back.png")
