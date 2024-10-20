@@ -1226,12 +1226,20 @@ class loan_managnment_system:
         self.view_loans_button = Button(self.user_dashboard_frame, image=self.view_loans_image, bg="white", bd=0, cursor="hand2", command=self.userpage)
         self.view_loans_button.place(x=500, y=200)
         
+        #add label for view loan applications
+        self.view_loan_applications_label = Label(self.user_dashboard_frame, text="Available Loans", font=("calibri", 15,"bold"), bg="white", fg="black")
+        self.view_loan_applications_label.place(x=475, y=280)
+        
         # Add image as button for view loan applications
         self.view_loan_applications_image = Image.open("Loan_app/personal.png")
         self.view_loan_applications_image = self.view_loan_applications_image.resize((70, 70), Image.LANCZOS)
         self.view_loan_applications_image = ImageTk.PhotoImage(self.view_loan_applications_image)
         self.view_loan_applications_button = Button(self.user_dashboard_frame, image=self.view_loan_applications_image, bg="white", bd=0, cursor="hand2",command=self.view_loan_applications)
         self.view_loan_applications_button.place(x=700, y=200)
+        
+        # add label for view my loan applications
+        self.my_loan_applications_label = Label(self.user_dashboard_frame, text="My Loan Applications", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.my_loan_applications_label.place(x=630, y=280)
         
 
         
@@ -1250,6 +1258,16 @@ class loan_managnment_system:
         self.user_dashboard_frame = Frame(self.root, bg="white")
         self.user_dashboard_frame.place(x=0, y=0, width=1200, height=750)
         
+        # add label for view loan applications
+        self.view_loan_applications_label = Label(self.user_dashboard_frame, text="My Loans", font=("calibri", 15,"bold"), bg="white", fg="black")
+        self.view_loan_applications_label.place(x=550, y=50)
+
+        # add image as button for back to user dashboard
+        self.back_to_user_dashboard_image = Image.open("Loan_app/back.png")
+        self.back_to_user_dashboard_image = self.back_to_user_dashboard_image.resize((70, 70), Image.LANCZOS)
+        self.back_to_user_dashboard_image = ImageTk.PhotoImage(self.back_to_user_dashboard_image)
+        self.back_to_user_dashboard_button = Button(self.user_dashboard_frame, image=self.back_to_user_dashboard_image, bg="white", bd=0, cursor="hand2", command=self.user_dashboard)
+        self.back_to_user_dashboard_button.place(x=1050, y=650)
         
         # fetch loan details from loan_application table for the user with status of the loan
         con = mysql.connector.connect(host="localhost", user="root", password="Croatia@24", database="loan_management_system")
@@ -1326,6 +1344,11 @@ class loan_managnment_system:
         self.repayment_image = ImageTk.PhotoImage(self.repayment_image)
         self.repayment_button = Button(self.loan_application_frame, image=self.repayment_image, bg="white", bd=0, cursor="hand2", command=self.repayment_page)
         self.repayment_button.place(x=500, y=500)
+        
+        # add lable for repayment page
+        self.repayment_label = Label(self.loan_application_frame, text="Repay my loan", font=("calibri", 15, "bold"), bg="white", fg="black")
+        self.repayment_label.place(x=600, y=500)
+        
         
         
         
